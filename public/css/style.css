@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    margin-top: auto;
+}
+.logo {
+    width: 40%;
+    margin: auto;
+}
+.welcome {
+    width: 80%;
+}
+.form-control:focus {
+    box-shadow: none;
+  }

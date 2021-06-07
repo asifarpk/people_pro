@@ -1,0 +1,90 @@
+
+{{>header}}
+
+<div class="row">
+    <div class="col-lg-4 col-md-12  d-sm-none d-md-block d-none d-sm-block justify-content-center">
+        <img src="../public/svg/signup.svg" class="welcome mt-3" alt="welcome image">                
+    </div>
+    <div class="col-lg-8 col-md-12 col-12 justify-content-center">
+        <h4 class="text-center ">Create your Account</h4>
+        <center>
+            <span style="color: red;">{{info}}</span>
+        </center>        
+        <form action="/register" method = "POST">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">First Name <i><small style="color: red;">{{allErrors.first_name.msg}}</small></i></label>
+                        <input type="text" id = "first_name" name="first_name" value = "{{first_name_value}}" class="form-control" tabindex="1" required>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-4">
+                        <label class="form-label">Last Name <small style="color: red;">{{allErrors.last_name.msg}}</small></i></label>
+                        <input type="text" id = "last_name" class="form-control" name="last_name" value = "{{last_name_value}}" tabindex="2" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Email address <small style="color: red;">{{allErrors.email.msg}}</small></i></label>
+                        <input type="email" id = "email" name="email" value = "{{email_value}}" class="form-control" tabindex="3" required>
+                        <div class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-5">
+                        <label class="form-label d-block">Gender <small style="color: red;">{{allErrors.gender.msg}}</small></i> </label>
+                        <input class="form-check-input" id = "gender" type="radio" name="gender" value = "male" tabindex="4" >
+                        <label class="form-check-label">Male</label>                        
+                         <input class="form-check-input" id = "gender" type="radio" name="gender" value="female" >
+                        <label class="form-check-label">Female</label>                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Phone <small style="color: red;">{{allErrors.phone.msg}}</small></i></label>
+                        <input type="phone" id = "phone" name="phone" value = "{{phone_value}}" class="form-control" tabindex="5" required>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Your Age <small style="color: red;">{{allErrors.age.msg}}</small></i></label>
+                        <input type="number" id = "age" name = "age" value = "{{age_value}}" class="form-control" tabindex="6" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Password <small style="color: red;">{{allErrors.password.msg}} {{# if passwords_status}} Passwords do not match {{/if}}</small></i></label>
+                        <input type="password" id = "password" name="password" value = "{{password_value}}" class="form-control" tabindex="7" required>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Confirm Password <small style="color: red;">{{allErrors.re_password.msg}} {{# if passwords_status}} Passwords do not match {{/if}}</small></i></label>
+                        <input type="password" id = "re_password" name="re_password" value = "{{re_password_value}}" class="form-control" tabindex="8" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">               
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" id = "terms" name="terms" class="form-check-input" tabindex="9">
+                        <label class="form-check-label">I agree with <a href="#">Terms & Conditons</a></label><br> <small style="color: red;">{{allErrors.terms.msg}}</small></i> 
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <button type="submit" class="btn btn-primary" tabindex="10" required>Register</button>
+                </div>              
+            </div>
+        </form>              
+    </div>    
+</div>    
+
+{{>footer}}
+

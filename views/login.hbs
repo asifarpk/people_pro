@@ -1,0 +1,33 @@
+
+{{>header}}
+
+<div class="row">
+    <div class="col-lg-6 d-sm-none d-md-block d-none d-sm-block">
+        <img src="../public/svg/login.svg" class="welcome mt-3" alt="welcome image">                
+    </div>
+    <div class="col-lg-6 col-md-8 col-12">
+        <h4 class="text-center ">Login your Account</h4>
+        <center>
+            <span style = 'color: red;'>{{info}}</span>
+        </center>        
+        <form action="/login" method = "POST">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-12">
+                    <div class="mb-3">
+                        <label class="form-label">Email address <small style="color: red;">{{allErrors.email.msg}}</small></i></label>
+                        <input type="email" id = "email" name="email" value = "{{email_value}}" class="form-control" tabindex="3" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password <small style="color: red;">{{allErrors.password.msg}} {{# if passwords_status}} Passwords do not match {{/if}}</small></i></label>
+                        <input type="password" id = "password" name="password" value = "{{password_value}}" class="form-control" tabindex="7" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" tabindex="10" required>Login</button>
+                </div>               
+            </div>
+        </form>              
+    </div>    
+</div>    
+
+{{>footer}}
+

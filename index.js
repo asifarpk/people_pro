@@ -11,9 +11,7 @@ const {check, validationResult} = require("express-validator");
 
 const port = process.env.PORT || 5000;
 
-
-console.log (process.env.DATABASE);
-
+// sdfsdfsdfsdfs
 
 // Public Folder
 app.use('/public', express.static(__dirname + "/public"));

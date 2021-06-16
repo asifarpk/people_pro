@@ -1,13 +1,19 @@
+require('dotenv').config();
 const express = require("express");
 const hbs = require ("hbs");
 const app = express();
 const users = require ("./models/users");
 require ("./db/conn");
 const bodyParser = require('body-parser')
-const session = require('express-session')
-const validator = require ("validator");
+const bcrypt = require ("bcryptjs");
+const jwt = require ("jsonwebtoken");
 const {check, validationResult} = require("express-validator");
+
 const port = process.env.PORT || 5000;
+
+
+console.log (process.env.DATABASE);
+
 
 // Public Folder
 app.use('/public', express.static(__dirname + "/public"));
@@ -67,29 +73,46 @@ app.post ("/login", urlencodedParser, [
             if (!result) {
                 res.render ("login", 
                     {
-                        info: "There is no account associated with this email.",
+                        info: "Invalid Login Details.",
                         email_value: req.body.email,
                         password_value: req.body.password                        
 
                     }
                 )
-            } else if (userPassword === result.password) {
-                res.render ("dashboard", 
-                    {
-                        loginSuccess: `Welcome ${result.first_name + " " + result.last_name}`,
-                        logouut: true
-                    }
-                )
-            }
+            } 
             else {
-                res.render ("login", 
-                    {
-                        info: "Password didn't match for this account.",
-                        email_value: req.body.email,
-                        password_value: req.body.password                        
+                const auth = async (userPassword) => {
 
+                    // Compares with hashed password
+                    const passStatus = await bcrypt.compare (userPassword, result.password);
+
+                    if (passStatus) {
+
+                        // Before Login, Generates Login Token and pushes into Tokens.
+                        const token = await jwt.sign({_id: result._id.toString(), type: "log"}, `${result.first_name}${result.last_name}`); 
+                        await users.updateOne ({_id: result._id}, {$push: {'tokens': {"token": token}}});
+                        
+                        // Login and redirecting to dashboard
+                        res.render ("dashboard", 
+                            {
+                                loginSuccess: `Welcome ${result.first_name + " " + result.last_name}`,
+                                logouut: true
+                            }
+                        )
                     }
-                )
+                    else {
+                        res.render ("login", 
+                            {
+                                info: "Invalid Login Details.",
+                                email_value: req.body.email,
+                                password_value: req.body.password                        
+        
+                            }
+                        )
+                    }
+                }
+                auth(userPassword);
+                
             }
         }
         findDoc();
@@ -104,7 +127,7 @@ app.post ("/login", urlencodedParser, [
 
 // Routing
 app.get ("/", (req, res) => {
-    res.render ("index", {title: "Cool Asif"});
+    res.render ("index", {title: "Home"});
 })
 app.get ("/register", (req, res) => {
     res.render ("register", 
@@ -182,6 +205,7 @@ app.post ("/register", urlencodedParser, [
                         password: req.body.password
                     }
                 );
+
                 const result = await thisDoc.save();  
                 res.render ("register",
                     {

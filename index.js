@@ -1,9 +1,10 @@
 require('dotenv').config();
+require ("./db/conn");
+
 const express = require("express");
 const hbs = require ("hbs");
 const app = express();
 const users = require ("./models/users");
-require ("./db/conn");
 const bodyParser = require('body-parser')
 const bcrypt = require ("bcryptjs");
 const jwt = require ("jsonwebtoken");
@@ -20,14 +21,7 @@ app.set ("view engine", "hbs");
 hbs.registerPartials("views/partials");
 
 // bodyParser
-// var jsonParser = bodyParser.json()
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-
-
-// hbs.registerHelper('ifeq', function (a, b, options) {
-//     if (a == b) { return options.fn(this); }
-//     return options.inverse(this);
-// });
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 
 app.get ("/login", (req, res) => {
@@ -86,14 +80,22 @@ app.post ("/login", urlencodedParser, [
                     if (passStatus) {
 
                         // Before Login, Generates Login Token and pushes into Tokens.
-                        const token = await jwt.sign({_id: result._id.toString(), type: "log"}, `${result.first_name}${result.last_name}`); 
-                        await users.updateOne ({_id: result._id}, {$push: {'tokens': {"token": token}}});
+                        // const token = await jwt.sign({_id: result._id.toString(), type: "log"}, `${result.first_name}${result.last_name}`); 
+                        // await users.updateOne ({_id: result._id}, {$push: {'tokens': {"token": token}}});
+
+                        // Setting cookies
+                        res.cookie ("token", result.tokens[0].token, {
+                            expires: new Date(Date.now() + 30000),
+                            httpOnly: true
+                        });
                         
                         // Login and redirecting to dashboard
                         res.render ("dashboard", 
                             {
                                 loginSuccess: `Welcome ${result.first_name + " " + result.last_name}`,
-                                logouut: true
+                                logouut: true,
+                                title: "Login"
+                                
                             }
                         )
                     }

@@ -76,7 +76,6 @@ usersSchema.pre ("save", async function (next) {
 
         // Generating and Hashing Token
         const token = await jwt.sign({_id: this._id.toString(), type: "reg"}, `${this.first_name}${this.last_name}`);
-        console.log (token);
 
         // adding token field in the database
         this.tokens = this.tokens.concat({token:token});

@@ -1,0 +1,14 @@
+{{>header}}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-12 justify-content-center">
+        <center>
+            <h2>About Us</h2>
+            {{#if thisToken}}<span style = 'color: green;'>Your Token is: {{thisToken}}</span>{{else}}<span style = 'color: red;'>Your Token has been expired.</span>{{/if}}
+        </center>
+    </div>        
+    
+</div>    
+
+{{>footer}}
+
